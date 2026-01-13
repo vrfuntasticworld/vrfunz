@@ -1,0 +1,3195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaVerse VR - Immersive Virtual Reality Experiences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Space Background */
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #0a0a1a 0%, #000000 70%);
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 1s infinite ease-in-out;
+        }
+
+        .star:nth-child(3n) {
+            background-color: #9cf4ff;
+        }
+
+        .star:nth-child(5n) {
+            background-color: #ffd700;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Moving Stars Animation */
+        @keyframes star-drift {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+            100% {
+                transform: translateX(100px) translateY(50px);
+            }
+        }
+
+        /* Nebula effect */
+        .nebula {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.1;
+        }
+
+        .nebula-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b0764, transparent 70%);
+            top: 10%;
+            right: 10%;
+            animation: nebula-move 20s infinite alternate ease-in-out;
+        }
+
+        .nebula-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #082f49, transparent 70%);
+            bottom: 20%;
+            left: 5%;
+            animation: nebula-move 25s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes nebula-move {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(100px, 50px);
+            }
+        }
+
+        /* Center Earth Animation */
+        .earth-container {
+            position: fixed;
+            top: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 480px;
+            height: 480px;
+            z-index: 1;
+            overflow: visible;
+            pointer-events: none;
+        }
+
+        .earth-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: transparent;
+            padding: 0;
+            box-shadow: 
+                0 0 180px rgba(37, 99, 235, 0.9),
+                0 0 280px rgba(37, 99, 235, 0.6),
+                0 0 380px rgba(37, 99, 235, 0.4),
+                inset 0 0 50px rgba(255, 255, 255, 0.2);
+        }
+
+        .earth {
+            position: relative;
+            width: 230%;
+            height: 140%;
+            left: -65%;
+            top: -22%;
+            border-radius: 50%;
+            background: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80') center/cover;
+            overflow: hidden;
+            animation: rotate-earth 40s linear infinite;
+            border: 6px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                inset 0 0 150px rgba(30, 64, 175, 0.95),
+                0 0 150px rgba(37, 99, 235, 0.9),
+                0 0 220px rgba(37, 99, 235, 0.7);
+        }
+
+        .earth::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, transparent 40%, rgba(30, 64, 175, 0.6) 100%);
+            border-radius: 50%;
+        }
+        
+
+        /* Rocket Animations */
+        .rocket-container {
+            position: fixed;
+            bottom: 550px; /* başlangıç */
+            width: 120px;
+            height: 180px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+        }
+     
+        .rocket-right {
+            right: 30%;
+            animation: rocket-launch-right 5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .rocket-left {
+            left: 30%;
+            animation: rocket-launch-left 5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .rocket {
+            width: 100%;
+            height: 300%;
+            background: url('bumbercarsvfw.png') center/contain no-repeat;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            animation: rocket-float 2s ease-in-out infinite;
+        }
+
+        .rocket-left .rocket {
+            background: url('vrkids.png') center/contain no-repeat;
+            transform: rotateY(180deg);
+            width: 450px;
+        }
+        .rocket-right .rocket {
+            background: url('bumbercarsvfw.png') center/contain no-repeat;
+            transform: rotateY(200deg);
+            width: 450px;
+        }
+
+        @keyframes rocket-launch-right {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(-50px) scale(0.5);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(60vh) translateX(0) scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) scale(1);
+            }
+        }
+
+        @keyframes rocket-launch-left {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(50px) scale(0.5) rotateY(180deg);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(60vh) translateX(0) scale(1) rotateY(180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) scale(1) rotateY(180deg);
+            }
+        }
+
+        @keyframes rocket-float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        /* Modern Buttons */
+        .modern-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            z-index: 1;
+        }
+
+        .modern-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1d4ed8, #06b6d4, #3b82f6, #1d4ed8);
+            background-size: 300% 300%;
+            border-radius: 50px;
+            z-index: -1;
+            transition: all 0.5s ease;
+            animation: gradient-shift 3s ease infinite;
+        }
+
+        .modern-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+
+        .modern-button:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .modern-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .modern-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .modern-button i {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .modern-button:hover i {
+            transform: translateX(5px);
+        }
+
+        .modern-button-secondary {
+            background: transparent;
+            border: 2px solid #60a5fa;
+            color: white;
+        }
+
+        .modern-button-secondary::before {
+            display: none;
+        }
+
+        .modern-button-secondary:hover {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: #06b6d4;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            padding-top: 300px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            animation: slideDown 0.8s ease-out;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            
+            margin-top: 0;
+            transition: all 0.3s ease;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        nav.scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+            padding: 15px 20px;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Logo */
+        .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Bu satırı ekleyin */
+    gap: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ffffff;
+    -webkit-text-stroke: 1px rgba(120, 160, 255, 0.8);
+    text-shadow:
+        0 0 6px rgba(5, 5, 5, 2),
+        0 0 14px rgba(13, 13, 13, 0.7),
+        0 0 28px rgba(8, 8, 8, 0.6),
+        0 0 48px rgba(7, 7, 7, 0.4);
+    cursor: pointer;
+    transition: transform 0.3s, text-shadow 0.3s;
+    position: absolute; /* Logo'yu pozisyonlandırmak için */
+    left: 50%; /* Yatayda ortala */
+    transform: translateX(-50%); /* Pozisyon düzeltmesi */
+}
+
+        .logo-icon {
+            animation: rotate3d 3s linear infinite;
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Gift Card Button (Mobile Only) */
+        .gift-card-btn-mobile {
+            display: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            z-index: 101;
+            background: linear-gradient(45deg, #ffffff, #f9f9f9);
+            color: #000;
+            border: none;
+        }
+
+        .gift-card-btn-mobile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 170, 0, 0.4);
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            margin-top: 0;
+            width: auto;
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-left{
+           margin-right: 150px;
+        }
+
+        .nav-right{
+           margin-left: 150px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 0;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #60a5fa, #06b6d4);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Burger Menu */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            z-index: 101;
+            margin-left: auto;
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background: linear-gradient(45deg, #60a5fa, #06b6d4);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 50px;
+            right: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+            padding: 20px;
+            z-index: 99;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-nav-links li {
+            padding: 12px 0;
+        }
+
+        .mobile-nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            transition: all 0.3s;
+            padding: 8px 0;
+        }
+
+        .mobile-nav-links a:hover {
+            color: #60a5fa;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 130px 0 100px;
+            animation: fadeIn 1s ease-out;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            animation: slideInLeft 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 99, 235, 0.2);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            animation: bounce 2s infinite;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 48px;
+                color: white !important;
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+                -webkit-text-fill-color: white !important;
+                background: none !important;
+            }
+            
+            .hero h1 .gradient-text {
+                color: #60a5fa !important;
+                -webkit-text-fill-color: #60a5fa !important;
+                background: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #60a5fa, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Modern Buttons in Hero */
+        .primary-button {
+            color: white;
+        }
+
+        .secondary-button {
+            color: white;
+            background: transparent;
+            border: 2px solid #60a5fa;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .instagram-follow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, #E1306C, #C13584);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .instagram-follow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.4);
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #60a5fa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Bumper Cars Section */
+        .bumper-cars-section {
+            margin: 80px 0;
+        }
+
+        .bumper-cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .bumper-car-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+            aspect-ratio: 1;
+        }
+
+        .bumper-car-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.3);
+        }
+
+        .bumper-car-image {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bumper-car-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .bumper-car-card:hover .bumper-car-image::before {
+            transform: translateX(100%);
+        }
+
+        /* 10-Ride Card Section */
+        .ride-card-section {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .ride-card-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .ride-card-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .ride-card-info h3 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #fff;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ride-card-info p {
+            color: #cbd5e1;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .ride-card-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #60a5fa;
+            font-size: 14px;
+        }
+
+        .benefit-item i {
+            color: #10b981;
+        }
+
+        .ride-card-button {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .ride-card-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Game Categories Filter */
+        .categories-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            color: #cbd5e1;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            background: rgba(37, 99, 235, 0.2);
+            border-color: rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(45deg, #1d4ed8, #06b6d4);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(37, 99, 235, 0.5);
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-image {
+            height: 180px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .game-card:hover .game-image::before {
+            transform: translateX(100%);
+        }
+
+        .game-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .game-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Açıklama sayfada görünmüyor, sadece modalda görünecek */
+        .game-content p {
+            display: none; /* Açıklama sayfada görünmüyor */
+        }
+
+        .game-type {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #06b6d4;
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: auto;
+            padding: 8px 0;
+            border-top: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        /* Experiences Grid */
+        .experiences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .experience-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+            aspect-ratio: 1;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.3);
+        }
+
+        .experience-image {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .experience-card:hover .experience-image::before {
+            transform: translateX(100%);
+        }
+
+        /* Booking Modal */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .booking-modal-content {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .booking-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .booking-modal-header h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, #60a5fa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-booking-modal {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-booking-modal:hover {
+            color: #60a5fa;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .submit-booking {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            animation: scaleUp 0.3s ease;
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .image-modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(37, 99, 235, 0.5);
+        }
+
+        .close-image-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-image-modal:hover {
+            background: rgba(37, 99, 235, 0.7);
+            transform: rotate(90deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(45deg, #1d4ed8, #06b6d4);
+            border-radius: 30px;
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 80px 0;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            animation: glow-move 5s ease-in-out infinite;
+        }
+
+        @keyframes glow-move {
+            0%, 100% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+        }
+
+        .cta-section h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-primary-button {
+            background: white;
+            color: #fafafa;
+            padding: 20px 50px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-primary-button:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gift Card Button in CTA */
+        .cta-gift-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: #000;
+            padding: 20px 50px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .cta-gift-card-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 20px 60px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Locations Section */
+        .locations-section {
+            margin: 100px 0;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .location-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .location-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(37, 99, 235, 0.5);
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.3);
+        }
+
+        .location-image {
+            height: 200px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .location-info {
+            padding: 20px;
+        }
+
+        .location-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .location-info p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .map-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .map-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid rgba(37, 99, 235, 0.2);
+            padding: 60px 0 40px;
+            margin-top: 100px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #60a5fa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .footer-address {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-hours {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            min-width: 180px;
+        }
+
+        .footer-column h4 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-column a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-column a:hover {
+            color: #60a5fa;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .copyright a {
+            color: #60a5fa;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .copyright a:hover {
+            color: #06b6d4;
+            text-decoration: underline;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #E1306C, #C13584);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.4);
+        }
+
+        /* Game Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h3 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: #60a5fa;
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            color: #94a3b8;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .nav-links {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .burger-menu {
+                display: flex;
+            }
+            
+            .gift-card-btn-mobile {
+                display: block;
+            }
+            
+            nav {
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+            
+            .logo {
+                position: static;
+                transform: none;
+            }
+            
+            .nav-left, .nav-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 250px;
+            }
+            
+            .earth-container {
+                width: 320px;
+                height: 320px;
+                top: -160px;
+            }
+            .rocket-right {
+            
+            right: 30%;
+            animation: rocket-launch-right 5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .rocket-left {
+            left: 40%;
+            animation: rocket-launch-left 5s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .section-header h2 {
+                font-size: 40px;
+            }
+            
+            .cta-section {
+                padding: 50px 30px;
+            }
+            
+            .cta-section h2 {
+                font-size: 36px;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .footer-top {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .footer-links {
+                gap: 40px;
+                width: 100%;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-primary-button,
+            .cta-gift-card-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .ride-card-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .game-content h3 {
+                min-height: auto;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .earth-container {
+                width: 280px;
+                height: 280px;
+                top: -140px;
+            }
+            
+            .container {
+                padding-top: 240px;
+            }
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .rocket {
+            width: 100%;
+            height: 150%;
+            bottom: 750px;
+           
+        }
+
+
+        .rocket-right {
+            right: 40%;
+            animation: rocket-launch-right 5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .rocket-left {
+            left: 60%;
+            animation: rocket-launch-left 5s ease-out forwards;
+            animation-delay: 0.5s;
+            
+        }
+          
+        .mobile-menu{
+            margin-top: 25px;
+        }
+       
+       
+           
+            .hero h1 {
+                font-size: 36px;
+                margin-top: 130px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .section-header h2 {
+                font-size: 32px;
+            }
+            
+            .logo {
+                font-size: 20px;
+                gap: 8px;
+            }
+            
+            .gift-card-btn-mobile {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+            
+            .footer-column {
+                width: 100%;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .categories-filter {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            
+            .modern-button {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
+
+        
+        }
+
+        @keyframes rotate-earth {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+        }
+
+        /* Today Booking Notice */
+        .today-booking-notice {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+     
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Space Background -->
+    <div class="space-background">
+        <div class="stars" id="stars-container"></div>
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+    </div>
+
+    <!-- Center Earth Animation -->
+    <div class="earth-container">
+        <div class="earth-wrapper">
+            <div class="earth"></div>
+        </div>
+    </div>
+
+    <!-- Rocket Animations -->
+    <div class="rocket-container rocket-left" id="rocketLeft">
+        <div class="rocket"></div>
+    </div>
+
+    <div class="rocket-container rocket-right" id="rocketRight">
+        <div class="rocket"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Navigation -->
+        <nav id="mainNav">
+            <!-- Logo (Left on Mobile) -->
+
+            
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <span>VR Funtastic World</span>
+                
+            </div>
+ <!-- Gift Card Button (Mobile Only) -->
+ <button class="gift-card-btn-mobile" id="mobileGiftCardBtn">
+    <i class="fas fa-gift"></i>
+    Gift Card
+</button>
+            <!-- Desktop Navigation Links -->
+            <div class="nav-links">
+                <div class="nav-left">
+                    <a href="#bumper-cars">Bumber Cars</a>
+                    <a href="#games">Games</a>
+                    <a href="#experiences">Experiences</a>
+                    
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <div class="nav-right">
+                    <a href="#home">Book Today</a>
+                    <a href="faq.html">F.A.Q</a>
+                    <a href="mailto:vrfuntasticworld@gmail.com">Contact</a>
+                    
+                </div>
+            </div>
+
+           
+
+            <!-- Burger Menu Button (Mobile) -->
+            <button class="burger-menu" id="burgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#bumper-cars">Bumper Cars</a></li>
+                <li><a href="#experiences">Experiences</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="faq.html">F.A.Q</a></li>
+                <li><a href="mailto:vrfuntasticworld@gmail.com">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+               
+                <h1>
+                    Immerse Yourself in<br>
+                    <span class="gradient-text">Virtual Worlds</span>
+                </h1>
+                <p>
+                    Experience cutting-edge virtual reality like never before. 
+                    From thrilling adventures to magical fantasies, explore endless 
+                    possibilities in our immersive VR universe.
+                </p>
+                <div class="hero-buttons">
+                    <button class="modern-button primary-button" id="bookNowBtn">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>BOOK TODAY</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="modern-button secondary-button" id="giftCardBtn">
+                        <i class="fas fa-gift"></i>
+                        <span>GIFT CARD</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VR Experience Section -->
+        <section class="section" id="experiences">
+            <div class="section-header">
+                <h2>VR Experience</h2>
+                <p>See our visitors enjoying immersive VR adventures</p>
+            </div>
+            
+            <!-- Experiences Grid -->
+            <div class="experiences-grid">
+                <div class="experience-card" data-image="vr-01.jpg">
+                    <div class="experience-image" style="background-image: url('vr-01.jpg')"></div>
+                </div>
+                <div class="experience-card" data-image="vr-02.jpg">
+                    <div class="experience-image" style="background-image: url('vr-02.jpg')"></div>
+                </div>
+                <div class="experience-card" data-image="vr-03.jpg">
+                    <div class="experience-image" style="background-image: url('vr-03.jpg')"></div>
+                </div>
+                <div class="experience-card" data-image="vr-04.jpg">
+                    <div class="experience-image" style="background-image: url('vr-04.jpg')"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Games Section -->
+        <section class="section" id="games">
+            <div class="section-header">
+                <h2>VR Games Collection</h2>
+                <p>Explore our wide range of immersive VR experiences</p>
+            </div>
+
+            <!-- Game Categories Filter -->
+            <div class="categories-filter" id="gameFilter">
+                <button class="filter-btn active" data-category="all">
+                    <i class="fas fa-gamepad"></i>
+                    <span>All Games</span>
+                </button>
+                <button class="filter-btn" data-category="shooting">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Shooting Games</span>
+                </button>
+                <button class="filter-btn" data-category="rollercoaster">
+                    <i class="fas fa-mountain"></i>
+                    <span>Roller Coasters</span>
+                </button>
+                <button class="filter-btn" data-category="adventure">
+                    <i class="fas fa-hiking"></i>
+                    <span>Adventure</span>
+                </button>
+                <button class="filter-btn" data-category="horror">
+                    <i class="fas fa-ghost"></i>
+                    <span>Horror & Thrill</span>
+                </button>
+                <button class="filter-btn" data-category="fantasy">
+                    <i class="fas fa-dragon"></i>
+                    <span>Fantasy & Cartoon</span>
+                </button>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="games-grid">
+                <!-- New Games -->
+               <div class="game-card" data-game="mine-coaster" data-category="rollercoaster">
+    <div class="game-image" style="background-image: url('mine-coaster.jpg')"></div>
+
+    <div class="game-content">
+        <h3 class="game-title">MINECRAFT ROLLER COASTER</h3>
+
+        <div class="game-details">
+            <!-- Açıklama burada görünmüyor -->
+            <div class="game-type">
+                <i class="fas fa-tag"></i>
+                <span>MINECRAFT THEME ROLLER COASTER</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                <div class="game-card" data-game="water-splash" data-category="rollercoaster">
+                    <div class="game-image" style="background-image: url('water-splash.jpg')"></div>
+                    <div class="game-content">
+                        <h3>WATER SPLASH ADVENTURE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>UNDERWATER ROLLER COASTER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="mario-adventure" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('mario-adventure.jpg')"></div>
+                    <div class="game-content">
+                        <h3>SUPER MARIO ADVENTURE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>MARIO THEME ADVENTURE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="gamma-bear" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('gamma-bear.jpg')"></div>
+                    <div class="game-content">
+                        <h3>GAMMA BEAR'S HAPPY WORLD</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>KIDS FRIENDLY GENTLE ADVENTURE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Original Games -->
+                <div class="game-card" data-game="dungeon-rampage" data-category="rollercoaster">
+                    <div class="game-image" style="background-image: url('Dungeon rampage.jpg')"></div>
+                    <div class="game-content">
+                        <h3>DUNGEAN RAMPAGE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>ROLLER COASTER & SHOOTING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="atlantis" data-category="shooting">
+                    <div class="game-image" style="background-image: url('ATLANTIS.jpg')"></div>
+                    <div class="game-content">
+                        <h3>THE LOST EMPIRE ATLANTIS</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>UNDERWATER SHOOTING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="mummy" data-category="shooting">
+                    <div class="game-image" style="background-image: url('MUMMY.jpg')"></div>
+                    <div class="game-content">
+                        <h3>MUMMY</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>MUMMY SHOOTING IN PYRAMID</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="cj7" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('CJ7.jpg')"></div>
+                    <div class="game-content">
+                        <h3>YANGZTE RIVER (CJ7)</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>CUTE, CARTOONIE SHOOTING GAME</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="future-terminator-2" data-category="shooting">
+                    <div class="game-image" style="background-image: url('FUTURE TER 2.jpg')"></div>
+                    <div class="game-content">
+                        <h3>FUTURE TERMINATOR 2</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>FPS – 2nd Part of the Game</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="zombie-master" data-category="horror">
+                    <div class="game-image" style="background-image: url('ZOMBIE MASTER.jpg')"></div>
+                    <div class="game-content">
+                        <h3>ZOMBIE MASTER</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>CHINESE ZOMBIE SHOOTING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="future-terminator" data-category="shooting">
+                    <div class="game-image" style="background-image: url('FUTURE TER.jpg')"></div>
+                    <div class="game-content">
+                        <h3>FUTURE TERMINATOR</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>FPS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="mid-autumn" data-category="adventure">
+                    <div class="game-image" style="background-image: url('MID AUTUMN.jpg')"></div>
+                    <div class="game-content">
+                        <h3>MID AUTUMN FESTIVAL</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>CHINESE NEW YEAR, MID AUTUMN FESTIVAL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="dread-eye" data-category="horror">
+                    <div class="game-image" style="background-image: url('dread eye.jpg')"></div>
+                    <div class="game-content">
+                        <h3>DREAD EYE – THE BEST SCARY EXPERIENCE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>THRILL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="adventures" data-category="adventure">
+                    <div class="game-image" style="background-image: url('ADVENTURES.jpg')"></div>
+                    <div class="game-content">
+                        <h3>ADVENTURES</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>PIRATE SHIP SHOOTING GAME & RIDE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="dream-dance" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('DANCE DREAM.jpg')"></div>
+                    <div class="game-content">
+                        <h3>DREAM DANCE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>DANCE SHOW CONCERT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="eagle" data-category="adventure">
+                    <div class="game-image" style="background-image: url('eagle.jpg')"></div>
+                    <div class="game-content">
+                        <h3>EAGLE IN NATURE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>FLYING EXPERIENCE (LEAST MOTION SICKNESS)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="karting" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('KARTING.jpg')"></div>
+                    <div class="game-content">
+                        <h3>CRAZY RACING</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>KARTING, CARTOONIE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="enemy-mine" data-category="shooting">
+                    <div class="game-image" style="background-image: url('ENEMY MINE.jpg')"></div>
+                    <div class="game-content">
+                        <h3>ENEMY MINE</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>POWER RANGERS SHOOTING</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="birdy-king" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('birdy king duration.jpg')"></div>
+                    <div class="game-content">
+                        <h3>BIRDY KING LAND</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>CRAZY MOTORCYCLE RIDE IN CARTOON WORLD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-game="dragon-fly" data-category="fantasy">
+                    <div class="game-image" style="background-image: url('dragon fly.jpg')"></div>
+                    <div class="game-content">
+                        <h3>DRAGON FLY (THE MAGICAL SISTERS)</h3>
+                        <div class="game-type">
+                            <i class="fas fa-tag"></i>
+                            <span>FLYING EXPERIENCE IN CARTOON WORLD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bumper Cars Section -->
+        <section class="bumper-cars-section" id="bumper-cars">
+            <div class="section-header">
+                <h2>Bumper Cars</h2>
+                <p>Experience the thrill of bumper cars with a virtual reality twist</p>
+            </div>
+            
+            <!-- Bumper Cars Grid -->
+            <div class="bumper-cars-grid">
+                <div class="bumper-car-card" data-image="bumber-cars-01.jpg">
+                    <div class="bumper-car-image" style="background-image: url('bumber-cars-01.jpg')"></div>
+                </div>
+                <div class="bumper-car-card" data-image="bumber-cars-02.jpg">
+                    <div class="bumper-car-image" style="background-image: url('bumber-cars-02.jpg')"></div>
+                </div>
+                <div class="bumper-car-card" data-image="bumber-cars-04.jpg">
+                    <div class="bumper-car-image" style="background-image: url('bumber-cars-04.jpg')"></div>
+                </div>
+                <div class="bumper-car-card" data-image="bumber-cars-05.jpg">
+                    <div class="bumper-car-image" style="background-image: url('bumber-cars-05.jpg')"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10-Ride Card Section -->
+        <section class="ride-card-section">
+            <div class="ride-card-content">
+                <div class="ride-card-info">
+                    <h3>10-Ride Card Special Offer</h3>
+                   
+                    
+                    <div class="ride-card-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>10 rides</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Share with family and friends</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>No expiration date</span>
+                        </div>
+                      
+                    </div>
+                    
+                    <a href="https://www.clover.com/pay-widgets/de658ca1-60e1-4283-b91c-1205dc52f8b9" class="ride-card-button modern-button" target="_blank">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Buy 10-Ride Card Now</span>
+                    </a>
+                </div>
+                
+                <div class="ride-card-image">
+                    <img src="bumber-cars.jpg" alt="10-Ride Card" style="width: 300px; border-radius: 15px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Locations Section -->
+        <section class="locations-section" id="locations">
+            <div class="section-header">
+                <h2>Our Locations</h2>
+                <p>Visit us at one of our amazing VR centers</p>
+                <!-- Instagram Follow Button -->
+                <a href="https://instagram.com" class="instagram-follow modern-button" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                    <span>Follow us on Instagram</span>
+                </a>
+            </div>
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-image" style="background-image: url('vrfuntastic.jpg')"></div>
+                    <div class="location-info">
+                        <h3>Kids Market Vancouver</h3>
+                        <p>Granville Island<br>Find us on the 2nd floor</p>
+                        <button class="map-button modern-button" onclick="window.open('https://maps.app.goo.gl/Ldoy8g7ctiXT8sry6', '_blank')">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>View on Map</span>
+                        </button>
+                    </div>
+                </div>
+               <div class="location-card"
+     onclick="window.open('https://gobovr.com', '_blank')"
+     style="cursor: pointer;">
+
+    <div class="location-image" style="background-image: url('gobo.jpg')"></div>
+
+    <div class="location-info">
+        <h3>GOBO VR</h3>
+        <p>
+            10355 152 St, Guildford Town Centre<br>
+            Open: 12 PM - 9 PM MON-FRI, 11 AM - 9 PM SAT, 11 AM - 6:30 PM SUN
+        </p>
+
+        <button class="map-button modern-button"
+            onclick="event.stopPropagation(); window.open('https://maps.app.goo.gl/FpunpTL4X9uEHd6V7', '_blank')">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>View on Map</span>
+        </button>
+    </div>
+</div>
+
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section">
+            <div class="cta-section">
+                <h2>Ready to Dive In?</h2>
+                <p>
+                    Book your VR experience today and step into amazing virtual worlds. 
+                    Perfect for parties, team building, or just fun with friends!
+                </p>
+                <div class="cta-buttons">
+                    <button class="cta-primary-button modern-button" id="ctaBookNowBtn">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Book Today's Session</span>
+                    </button>
+                    <button class="cta-gift-card-btn modern-button" id="ctaGiftCardBtn">
+                        <i class="fas fa-gift"></i>
+                        <span>Gift Card</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-top">
+                    <div class="footer-info">
+                        <div class="footer-logo">
+                            <i class="fas fa-rocket"></i>
+                            <span>VR Funtastic World</span>
+                        </div>
+                        <div class="footer-address">
+                            <strong>Address:</strong><br>
+                            Kids Market Vancouver,<br>
+                            Granville Island<br>
+                            Find us on the 2nd floor<br><br>
+                            Address: 1496 Cartwright St,<br>
+                            Vancouver, BC V6H 3Y5
+                        </div>
+                        <div class="footer-hours">
+                            <strong>Hours:</strong><br>
+                            10am - 6pm<br>
+                            Monday to Sunday<br><br>
+                           
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#games">Games</a></li>
+                                <li><a href="#bumper-cars">Bumper Cars</a></li>
+                                <li><a href="#experiences">Experiences</a></li>
+                                <li><a href="#locations">Locations</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h4>Support</h4>
+                            <ul>
+                                
+                                <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="mailto:vrfuntasticworld@gmail.com">Contact Us</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        © 2025 <a href="https://www.instagram.com/bigsparkmedia/" target="_blank">Big Spark Media</a> All rights reserved. 
+                 
+                    </div>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/vrfuntasticworld/" class="social-link" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <button class="close-image-modal">&times;</button>
+        <div class="image-modal-content">
+            <img id="modalImg" src="" alt="Enlarged View">
+        </div>
+    </div>
+
+    <!-- Game Details Modal -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Game Title</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage"></div>
+                <div class="modal-info">
+                    <p class="modal-description" id="modalDescription">Game description will appear here.</p>
+                    <div class="modal-details">
+                        <!-- Duration kaldırıldı -->
+                        <div class="detail-item">
+                            <span class="detail-label">Style / Type</span>
+                            <span class="detail-value" id="modalType">Roller Coaster & Shooting</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Category</span>
+                            <span class="detail-value" id="modalCategory">Roller Coaster</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Intensity</span>
+                            <span class="detail-value" id="modalIntensity">High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-modal-content">
+            <div class="booking-modal-header">
+                <h3>Book Your VR Experience for Today</h3>
+                <button class="close-booking-modal">&times;</button>
+            </div>
+            
+            <!-- Today Booking Notice -->
+            <div class="today-booking-notice">
+                <i class="fas fa-calendar-day"></i>
+                <span>Booking available only for today: <span id="todayDate"></span></span>
+            </div>
+            
+            <form class="booking-form" id="bookingForm" action="https://formspree.io/f/mkgdekjn" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="players">Number of Players *</label>
+                        <select id="players" name="players" required>
+                            <option value="">Select...</option>
+                            <option value="1">1 Player</option>
+                            <option value="2">2 Players</option>
+                            <option value="3">3 Players</option>
+                            <option value="4">4 Players</option>
+                            <option value="5">5+ Players (Group)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="time">Preferred Time *</label>
+                        <select id="time" name="time" required>
+                            <option value="">Select a time</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Select Experience Type</label>
+                        <select id="experience" name="experience">
+                            <option value="">Any Experience</option>
+                            <option value="virtual-reality">Virtual Reality</option>
+                            <option value="bumper-cars">Bumper Cars</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests or Notes</label>
+                    <textarea id="specialRequests" name="specialRequests" placeholder="Any special requirements, birthday celebrations, etc."></textarea>
+                </div>
+                
+                <button type="submit" class="modern-button submit-booking">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Submit Today's Booking</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Booking submitted successfully!</span>
+    </div>
+
+    <script>
+        // Create realistic stars with movement
+        const starsContainer = document.getElementById('stars-container');
+        const starCount = 400;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 0.5;
+            const delay = Math.random() * 3;
+            const duration = 2 + Math.random() * 3;
+            const driftDuration = 20 + Math.random() * 40;
+            
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+            star.style.animationDuration = `${duration}s`;
+            
+            if (i % 5 === 0) {
+                star.style.animation = `twinkle ${duration}s infinite ease-in-out, star-drift ${driftDuration}s infinite alternate ease-in-out`;
+            }
+            
+            starsContainer.appendChild(star);
+        }
+
+        // Scroll effect for navigation and rockets
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            const rocketRight = document.getElementById('rocketRight');
+            const rocketLeft = document.getElementById('rocketLeft');
+            const scrolled = window.pageYOffset;
+            
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            if (rocketRight) {
+                const rocketTop = 20 + (scrolled * 0.2);
+                rocketRight.style.top = `${Math.min(rocketTop, 90)}%`;
+                rocketRight.style.transform = `translateX(0) translateY(${scrolled * 0.1}px)`;
+            }
+            
+            if (rocketLeft) {
+                const rocketTop = 30 + (scrolled * 0.15);
+                rocketLeft.style.top = `${Math.min(rocketTop, 85)}%`;
+                rocketLeft.style.transform = `translateX(0) translateY(${scrolled * 0.05}px)`;
+            }
+            
+            const earth = document.querySelector('.earth-container');
+            if (earth) {
+                earth.style.transform = `translateX(-50%) translateY(${50 + scrolled * 0.1}px)`;
+            }
+        });
+
+        // Burger Menu Toggle
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        burgerMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            
+            const spans = burgerMenu.querySelectorAll('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!burgerMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                const spans = burgerMenu.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                const spans = burgerMenu.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        // Game Filter Functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const category = button.getAttribute('data-category');
+                
+                gameCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    
+                    if (category === 'all' || category === cardCategory) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.6s ease-out';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Game data for modal (including new games)
+        const games = {
+            'mine-coaster': {
+                title: "MINECRAFT ROLLER COASTER",
+                description: "Experience the blocky world of Minecraft like never before! Ride through amazing roller coaster tracks built in the iconic Minecraft style. Explore different biomes, encounter Minecraft creatures, and enjoy the unique block-based visuals.",
+                category: "Roller Coaster",
+                type: "MINECRAFT THEME ROLLER COASTER",
+                intensity: "Medium",
+                image: "mine-coaster.jpg"
+            },
+            'water-splash': {
+                title: "WATER SPLASH ADVENTURE",
+                description: "Dive into an underwater roller coaster experience! Ride through coral reefs, underwater caves, and encounter amazing sea creatures. Feel the thrill as you splash through water tunnels and explore the beautiful ocean world.",
+                category: "Roller Coaster",
+                type: "UNDERWATER ROLLER COASTER",
+                intensity: "Medium",
+                image: "water-splash.jpg"
+            },
+            'mario-adventure': {
+                title: "SUPER MARIO ADVENTURE",
+                description: "Jump into the Mushroom Kingdom! Join Mario on an exciting adventure through colorful worlds, collecting coins, avoiding enemies, and experiencing the magic of the Mario universe. Perfect for fans of all ages.",
+                category: "Fantasy",
+                type: "MARIO THEME ADVENTURE",
+                intensity: "Low",
+                image: "mario-adventure.jpg"
+            },
+            'gamma-bear': {
+                title: "GAMMA BEAR'S HAPPY WORLD",
+                description: "Perfect for young children! Join Gamma Bear in a gentle, colorful world filled with friendly animals and simple, fun activities. This experience is designed specifically for young kids with no scary elements.",
+                category: "Fantasy",
+                type: "KIDS FRIENDLY GENTLE ADVENTURE",
+                intensity: "Very Low",
+                image: "gamma-bear.jpg"
+            },
+            'dungeon-rampage': {
+                title: "DUNGEAN RAMPAGE",
+                description: "Enter a dark dungeon filled with enemies and action. A fast-paced roller coaster combined with intense shooting gameplay.",
+                category: "Roller Coaster",
+                type: "ROLLER COASTER & SHOOTING",
+                intensity: "High",
+                image: "Dungeon rampage.jpg"
+            },
+            'atlantis': {
+                title: "THE LOST EMPIRE ATLANTIS",
+                description: "Explore the legendary underwater city of Atlantis while fighting mysterious enemies. A visually stunning underwater shooting adventure.",
+                category: "Shooting",
+                type: "UNDERWATER SHOOTING",
+                intensity: "Medium",
+                image: "ATLANTIS.jpg"
+            },
+            'mummy': {
+                title: "MUMMY",
+                description: "Travel inside ancient pyramids and face hidden dangers. A thrilling shooting experience set in a mysterious mummy-themed environment.",
+                category: "Shooting",
+                type: "MUMMY SHOOTING IN PYRAMID",
+                intensity: "Medium",
+                image: "MUMMY.jpg"
+            },
+            'cj7': {
+                title: "YANGZTE RIVER (CJ7)",
+                description: "A cute and colorful cartoon-style shooting game inspired by a fun fantasy world. Lighthearted and enjoyable for all audiences.",
+                category: "Fantasy",
+                type: "CUTE, CARTOONIE SHOOTING GAME",
+                intensity: "Low",
+                image: "CJ7.jpg"
+            },
+            'future-terminator-2': {
+                title: "FUTURE TERMINATOR 2",
+                description: "Continue the fight in a futuristic world full of action. The second part of the FPS series with more enemies and excitement.",
+                category: "Shooting",
+                type: "FPS – 2nd Part of the Game",
+                intensity: "High",
+                image: "FUTURE TER 2.jpg"
+            },
+            'zombie-master': {
+                title: "ZOMBIE MASTER",
+                description: "Battle against Chinese-style zombies in an action-packed shooting experience. Fast, intense, and full of adrenaline.",
+                category: "Horror",
+                type: "CHINESE ZOMBIE SHOOTING",
+                intensity: "High",
+                image: "ZOMBIE MASTER.jpg"
+            },
+            'future-terminator': {
+                title: "FUTURE TERMINATOR",
+                description: "Enter a sci-fi battlefield and fight powerful enemies. A classic FPS experience set in a futuristic world.",
+                category: "Shooting",
+                type: "FPS",
+                intensity: "High",
+                image: "FUTURE TER.jpg"
+            },
+            'mid-autumn': {
+                title: "MID AUTUMN FESTIVAL",
+                description: "Celebrate traditional Chinese culture with beautiful visuals inspired by the Mid-Autumn Festival and Chinese New Year.",
+                category: "Adventure",
+                type: "CHINESE NEW YEAR, MID AUTUMN FESTIVAL",
+                intensity: "Low",
+                image: "MID AUTUMN.jpg"
+            },
+            'dread-eye': {
+                title: "DREAD EYE – THE BEST SCARY EXPERIENCE",
+                description: "Face your deepest fears in one of the most intense horror VR experiences. Dark atmosphere and strong thrill elements.",
+                category: "Horror",
+                type: "THRILL",
+                intensity: "Very High",
+                image: "dread eye.jpg"
+            },
+            'adventures': {
+                title: "ADVENTURES",
+                description: "Ride a pirate ship and fight enemies along the way. A fun mix of shooting game and amusement ride experience.",
+                category: "Adventure",
+                type: "PIRATE SHIP SHOOTING GAME & RIDE",
+                intensity: "Medium",
+                image: "ADVENTURES.jpg"
+            },
+            'dream-dance': {
+                title: "DREAM DANCE",
+                description: "Enjoy a colorful virtual dance show filled with music, lights, and movement. A concert-style visual experience.",
+                category: "Fantasy",
+                type: "DANCE SHOW CONCERT",
+                intensity: "Low",
+                image: "DANCE DREAM.jpg"
+            },
+            'eagle': {
+                title: "EAGLE IN NATURE",
+                description: "Fly freely like an eagle over stunning natural landscapes. A smooth flying experience with minimal motion sickness.",
+                category: "Adventure",
+                type: "FLYING EXPERIENCE (LEAST MOTION SICKNESS)",
+                intensity: "Low",
+                image: "eagle.jpg"
+            },
+            'karting': {
+                title: "CRAZY RACING",
+                description: "Race through fun and colorful tracks in a cartoon-style karting world. Fast, exciting, and entertaining.",
+                category: "Fantasy",
+                type: "KARTING, CARTOONIE",
+                intensity: "Medium",
+                image: "KARTING.jpg"
+            },
+            'enemy-mine': {
+                title: "ENEMY MINE",
+                description: "Fight alongside heroes in a power-packed shooting adventure. Action-filled gameplay inspired by classic hero battles.",
+                category: "Shooting",
+                type: "POWER RANGERS SHOOTING",
+                intensity: "Medium",
+                image: "ENEMY MINE.jpg"
+            },
+            'birdy-king': {
+                title: "BIRDY KING LAND",
+                description: "Ride through a crazy cartoon world on a high-speed motorcycle. Short, fun, and full of excitement.",
+                category: "Fantasy",
+                type: "CRAZY MOTORCYCLE RIDE IN CARTOON WORLD",
+                intensity: "Medium",
+                image: "birdy king duration.jpg"
+            },
+            'dragon-fly': {
+                title: "DRAGON FLY (THE MAGICAL SISTERS)",
+                description: "Fly through a magical cartoon world with dragons and fantasy scenery. A charming and smooth flying experience.",
+                category: "Fantasy",
+                type: "FLYING EXPERIENCE IN CARTOON WORLD",
+                intensity: "Low",
+                image: "dragon fly.jpg"
+            }
+        };
+
+        // Modal functionality
+        const gameModal = document.getElementById('gameModal');
+        const closeModal = document.querySelector('.close-modal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalType = document.getElementById('modalType');
+        const modalIntensity = document.getElementById('modalIntensity');
+        const modalImage = document.getElementById('modalImage');
+
+        // Open game modal when game card is clicked
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const gameId = this.getAttribute('data-game');
+                const game = games[gameId];
+                
+                if (game) {
+                    modalTitle.textContent = game.title;
+                    modalDescription.textContent = game.description;
+                    modalCategory.textContent = game.category;
+                    modalType.textContent = game.type;
+                    modalIntensity.textContent = game.intensity;
+                    modalImage.style.backgroundImage = `url('${game.image}')`;
+                    
+                    gameModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close game modal
+        closeModal.addEventListener('click', function() {
+            gameModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close game modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === gameModal) {
+                gameModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Image Modal functionality
+        const imageModal = document.getElementById('imageModal');
+        const closeImageModal = document.querySelector('.close-image-modal');
+        const modalImg = document.getElementById('modalImg');
+
+        // Open image modal when experience card is clicked
+        document.querySelectorAll('.experience-card, .bumper-car-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const imageUrl = this.getAttribute('data-image');
+                modalImg.src = imageUrl;
+                modalImg.alt = "Enlarged View";
+                imageModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close image modal
+        closeImageModal.addEventListener('click', function() {
+            imageModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close image modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === imageModal) {
+                imageModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Booking Modal functionality
+        const bookingModal = document.getElementById('bookingModal');
+        const closeBookingModal = document.querySelector('.close-booking-modal');
+        const bookNowBtn = document.getElementById('bookNowBtn');
+        const ctaBookNowBtn = document.getElementById('ctaBookNowBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const todayDateElement = document.getElementById('todayDate');
+
+        // Format today's date
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        todayDateElement.textContent = today.toLocaleDateString('en-US', options);
+
+        // Open booking modal when Book Now button is clicked
+        bookNowBtn.addEventListener('click', () => openBookingModal());
+        ctaBookNowBtn.addEventListener('click', () => openBookingModal());
+
+        function openBookingModal() {
+            // Set default time to next available hour
+            const now = new Date();
+            const currentHour = now.getHours();
+            let defaultTime = '10:00';
+            
+            if (currentHour < 10) defaultTime = '10:00';
+            else if (currentHour < 11) defaultTime = '11:00';
+            else if (currentHour < 12) defaultTime = '12:00';
+            else if (currentHour < 13) defaultTime = '13:00';
+            else if (currentHour < 14) defaultTime = '14:00';
+            else if (currentHour < 15) defaultTime = '15:00';
+            else if (currentHour < 16) defaultTime = '16:00';
+            else if (currentHour < 17) defaultTime = '17:00';
+            else if (currentHour < 18) defaultTime = '18:00';
+            else defaultTime = '10:00';
+            
+            document.getElementById('time').value = defaultTime;
+            
+            bookingModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close booking modal
+        closeBookingModal.addEventListener('click', function() {
+            bookingModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close booking modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Show notification function
+        function showNotification(message, type = 'success') {
+            notificationText.textContent = message;
+            notification.className = 'notification';
+            
+            if (type === 'error') {
+                notification.classList.add('error');
+                notification.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                notification.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        // Gift Card buttons functionality
+        const giftCardBtn = document.getElementById('giftCardBtn');
+        const ctaGiftCardBtn = document.getElementById('ctaGiftCardBtn');
+        const mobileGiftCardBtn = document.getElementById('mobileGiftCardBtn');
+
+        // Tüm gift card butonları için yönlendirme fonksiyonu
+        function redirectToGiftCard() {
+            window.open('https://squareup.com/gift/EBEG2N4C45YCK/order', '_blank');
+        }
+
+        // Her butona tıklama olayı ekle
+        [giftCardBtn, ctaGiftCardBtn, mobileGiftCardBtn].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', redirectToGiftCard);
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Button click animations
+        document.querySelectorAll('.modern-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+
+        // Add subtle star movement on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const stars = document.querySelectorAll('.star');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            stars.forEach((star, index) => {
+                if (index % 10 === 0) {
+                    const speed = 0.5;
+                    const xMove = (mouseX - 0.5) * speed;
+                    const yMove = (mouseY - 0.5) * speed;
+                    
+                    star.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                }
+            });
+        });
+
+        // Rocket hover effect
+        document.querySelectorAll('.rocket-container').forEach(rocket => {
+            rocket.addEventListener('mouseenter', function() {
+                this.style.filter = 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.9))';
+                this.style.transform = this.style.transform + ' scale(1.1)';
+            });
+            
+            rocket.addEventListener('mouseleave', function() {
+                this.style.filter = 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))';
+                this.style.transform = this.style.transform.replace(' scale(1.1)', '');
+            });
+        });
+    </script>
+</body>
+</html>
